@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Simple script to run prior to compiling a public .iso for new version
+sleep 3
+# to be sure
+cd
+
+# vbox log trash
+rm .vbox*
+
+# .config dir
+sudo rm -rf /etc/skel/.config
+sudo cp -r ~/.config /etc/skel/.config
+# Get rid of session files
+sudo rm -r /etc/skel/.config/session
+#sudo rm -r /etc/skel/.config/chromium
+
+# Szmelc dir
+sudo rm -fr /etc/skel/szmelc
+sudo cp -r ~/szmelc /etc/skel/szmelc
+# bashrc
+# sudo rm -fr /etc/skel/.bashrc
+# sudo cp ~/.bashrc /etc/skel/.bashrc
+sudo rm /etc/skel/.zshrc
+sudo cp ~/.zshrc /etc/skel/.zshrc
+sudo rm /etc/skel/.p10k.zsh
+sudo cp ~/.p10k.zsh /etc/skel/.p10k.zsh
+sudo rm /etc/skel/.zcompdump
+sudo cp ~/.zcompdump /etc/skel/.zcompdump
+
+sudo rm -fr /etc/skel/.local
+sudo cp -r /home/szmelc/.local /etc/skel/.local
+sleep 3
+
+# Prompt the user for the Build ID string
+read -p "Enter Build ID: " build
+echo "$build" | sudo tee /etc/.entropy-build > /dev/null
+
+echo "Complete"
