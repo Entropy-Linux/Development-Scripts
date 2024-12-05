@@ -62,20 +62,9 @@ echo "Creating diff directory from modified path..."
 rm -rf "$DIFF_DIR"
 cp -a "$MODIFIED_PATH" "$DIFF_DIR"
 
-# Create diff-log.txt from modified-log.txt
-cp "$MODIFIED_LOG" "$DIFF_LOG"
-
-# Final step: Remove all matching lines from diff-log.txt
-echo "Finalizing diff-log.txt by removing matches from original-log.txt..."
-while IFS= read -r original_line; do
-    # Extract relative path and hash from the original log
-    original_relative_path=$(echo "$original_line" | cut -d'|' -f1 | xargs)
-    original_hash=$(echo "$original_line" | cut -d'|' -f2 | xargs)
-
-    # Create the matching pattern and remove it from diff-log.txt
-    grep_pattern="^${original_relative_path//./\\.} | $original_hash$"
-    sed -i "/$grep_pattern/d" "$DIFF_LOG"
-done <"$ORIGINAL_LOG"
+# Create diff-log.txt using grep -vxFf
+echo "Creating diff-log.txt by comparing original-log.txt and modified-log.txt..."
+grep -vxFf "$ORIGINAL_LOG" "$MODIFIED_LOG" > "$DIFF_LOG"
 
 # Remove matching files from the diff directory
 echo "Removing matching files from diff directory..."
