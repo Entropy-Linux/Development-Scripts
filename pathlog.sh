@@ -7,7 +7,7 @@
 # Set default scan path to /
 SCAN_PATH="/"
 EXCLUDE_PATHS=("/proc" "/sys" "/dev" "/run" "/tmp" "/var/tmp")
-OUTPUT_FILE=~/pathlog.txt
+OUTPUT_FILE=pathlog.txt
 
 # Check if the user provided a path
 if [ -n "$1" ]; then
