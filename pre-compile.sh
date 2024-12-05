@@ -1,8 +1,14 @@
 #!/bin/bash
 
 clear 
+
+# Toggle "Show Hidden Files" Off in thunar
+xfconf-query -c thunar -p /last-show-hidden -s false
+
+
 figlet "WARNING"
 echo "This script is meant to prepare system for public build, DO NOT RUN IT, if you don't know what you're doing!"
+
 # Simple script to run prior to compiling a public .iso for new version
 sleep 3
 
